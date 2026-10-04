@@ -1,0 +1,45 @@
+@using NewBalanceBlazor.Components.Data
+
+<div class="thumb @(Light ? "light" : "")" style="background: linear-gradient(135deg, @From, @To);">
+    @if (IsNew)
+    {
+        <span class="tag">Новинка</span>
+    }
+    <span class="code">@Code</span>
+    <span class="brand">NEW BALANCE</span>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+    [Parameter] public bool IsNew { get; set; }
+
+    private string From => Product.Color switch
+    {
+        "Сірий" => "#7d838c",
+        "Білий" => "#f4f4f4",
+        "Чорний" => "#2a2a2a",
+        "Бежевий" => "#d8c8b0",
+        _ => "#c9c9c9"
+    };
+
+    private string To => Product.Color switch
+    {
+        "Сірий" => "#4b4f57",
+        "Білий" => "#dcdcdc",
+        "Чорний" => "#0c0c0c",
+        "Бежевий" => "#b9a888",
+        _ => "#9a9a9a"
+    };
+
+    private bool Light => Product.Color is "Білий" or "Бежевий";
+
+    private string Code
+    {
+        get
+        {
+            var digits = new string(Product.Name.SkipWhile(c => !char.IsDigit(c)).TakeWhile(char.IsDigit).ToArray());
+            if (digits.Length >= 2) return digits;
+            return string.Concat(Product.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(w => w[0])).ToUpper();
+        }
+    }
+}

@@ -1,0 +1,24 @@
+<header class="nb-header">
+    <div class="nb-header-inner">
+        <a class="nb-brand" href="">
+            <svg class="nb-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect width="40" height="40" rx="8" fill="#111" />
+                <path d="M10 30V10h5.2l9.6 13.6V10H30v20h-5.2L15.2 16.4V30H10z" fill="#cf0a2c" />
+            </svg>
+            <span>New Balance Shop</span>
+        </a>
+
+        <input type="checkbox" id="nb-toggle" class="nb-toggle" title="Меню" />
+        <label for="nb-toggle" class="nb-burger" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </label>
+
+        <nav class="nb-nav" onclick="document.getElementById('nb-toggle').checked = false">
+            <NavLink class="nb-link" href="" Match="NavLinkMatch.All">Головна</NavLink>
+            <NavLink class="nb-link" href="counter">Лічильник</NavLink>
+            <NavLink class="nb-link" href="weather">Погода</NavLink>
+            <NavLink class="nb-link" href="catalog">Каталог</NavLink>
+            <NavLink class="nb-link" href="contacts">Контакти</NavLink>
+        </nav>
+    </div>
+</header>

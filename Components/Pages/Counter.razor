@@ -1,0 +1,41 @@
+@page "/counter"
+@rendermode InteractiveServer
+
+<PageTitle>Лічильник — New Balance Shop</PageTitle>
+
+<h1 class="page-title">Лічильник кошика</h1>
+<p class="page-sub">Оберіть модель і кількість пар — сума рахується одразу.</p>
+
+<div class="panel-nb" style="max-width:560px;">
+    <div class="field-nb">
+        <label for="model">Модель</label>
+        <select id="model" class="form-select" @bind="selectedId" @bind:after="Reset">
+            @foreach (var p in ShopData.Products)
+            {
+                <option value="@p.Id">@p.Name — @ShopData.Money(p.Price)</option>
+            }
+        </select>
+    </div>
+
+    <div class="qty" role="group" aria-label="Кількість">
+        <button @onclick="Decrement" disabled="@(count == 0)" aria-label="Менше">−</button>
+        <output role="status">@count</output>
+        <button @onclick="Increment" aria-label="Більше">+</button>
+    </div>
+
+    <div class="stat">
+        <div><span>Кількість</span><strong>@count</strong></div>
+        <div><span>Разом</span><strong>@ShopData.Money(Selected.Price * count)</strong></div>
+    </div>
+</div>
+
+@code {
+    private int selectedId = 1;
+    private int count;
+
+    private Product Selected => ShopData.Products.First(p => p.Id == selectedId);
+
+    private void Increment() => count++;
+    private void Decrement() { if (count > 0) count--; }
+    private void Reset() => count = 0;
+}

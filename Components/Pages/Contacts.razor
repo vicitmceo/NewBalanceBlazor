@@ -1,0 +1,82 @@
+@page "/contacts"
+@rendermode InteractiveServer
+
+<PageTitle>Контакти — New Balance Shop</PageTitle>
+
+<h1 class="page-title">Контакти</h1>
+<p class="page-sub">Маєте питання щодо розміру чи замовлення? Напишіть нам.</p>
+
+<div class="contact-grid">
+    <div class="panel-nb">
+        <h2 style="font-size:18px;font-weight:800;margin:0;">Магазин</h2>
+        <dl class="mb-0">
+            <dt>Адреса</dt>
+            <dd>м. Київ, вул. Хрещатик, 22</dd>
+            <dt>Телефон</dt>
+            <dd>+380 44 123 45 67</dd>
+            <dt>Email</dt>
+            <dd>support@newbalanceshop.com</dd>
+            <dt>Графік роботи</dt>
+            <dd>Пн–Нд, 10:00–21:00</dd>
+        </dl>
+    </div>
+
+    <div class="panel-nb">
+        <h2 style="font-size:18px;font-weight:800;margin:0 0 16px;">Написати нам</h2>
+
+        <EditForm Model="form" OnValidSubmit="Send" FormName="contact">
+            <DataAnnotationsValidator />
+
+            <div class="field-nb">
+                <label for="name">Ім'я</label>
+                <InputText id="name" class="form-control" @bind-Value="form.Name" />
+                <ValidationMessage For="() => form.Name" />
+            </div>
+
+            <div class="field-nb">
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="form.Email" />
+                <ValidationMessage For="() => form.Email" />
+            </div>
+
+            <div class="field-nb">
+                <label for="msg">Повідомлення</label>
+                <InputTextArea id="msg" class="form-control" rows="3" @bind-Value="form.Message" />
+                <ValidationMessage For="() => form.Message" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Надіслати</button>
+        </EditForm>
+
+        @if (sent)
+        {
+            <div class="ok-nb">Дякуємо, @sentName! Відповімо протягом доби.</div>
+        }
+    </div>
+</div>
+
+@code {
+    private readonly ContactForm form = new();
+    private bool sent;
+    private string sentName = "";
+
+    private void Send()
+    {
+        sentName = form.Name;
+        sent = true;
+        form.Name = form.Email = form.Message = "";
+    }
+
+    private class ContactForm
+    {
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Вкажіть ім'я")]
+        public string Name { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Вкажіть email")]
+        [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "Некоректний email")]
+        public string Email { get; set; } = "";
+
+        [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Напишіть повідомлення")]
+        public string Message { get; set; } = "";
+    }
+}

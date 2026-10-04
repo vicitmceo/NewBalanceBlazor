@@ -1,0 +1,70 @@
+@page "/weather"
+@attribute [StreamRendering]
+
+<PageTitle>Погода — New Balance Shop</PageTitle>
+
+<h1 class="page-title">Погода для пробіжки</h1>
+<p class="page-sub">Прогноз на 5 днів і модель, яку варто взути.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Завантаження...</em></p>
+}
+else
+{
+    <div class="panel-nb">
+        <table class="nb">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Темп. (°C)</th>
+                    <th>Умови</th>
+                    <th>Що взути</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var f in forecasts)
+                {
+                    <tr>
+                        <td>@f.Date.ToString("dd.MM.yyyy")</td>
+                        <td>@f.TemperatureC</td>
+                        <td>@f.Summary</td>
+                        <td>@Recommend(f.TemperatureC)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+
+        var startDate = DateOnly.FromDateTime(DateTime.Now);
+        var summaries = new[] { "Морозно", "Свіжо", "Прохолодно", "Помірно", "Тепло", "Спекотно" };
+        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        {
+            Date = startDate.AddDays(index),
+            TemperatureC = Random.Shared.Next(-5, 32),
+            Summary = summaries[Random.Shared.Next(summaries.Length)]
+        }).ToArray();
+    }
+
+    private static string Recommend(int tempC) => tempC switch
+    {
+        < 5 => "NB Essentials Hoodie + New Balance 574",
+        < 18 => "New Balance 550",
+        _ => "NB Athletics Tee + New Balance 9060"
+    };
+
+    private class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+        public int TemperatureC { get; set; }
+        public string? Summary { get; set; }
+    }
+}

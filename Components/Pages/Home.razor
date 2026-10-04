@@ -1,0 +1,23 @@
+@page "/"
+
+<PageTitle>Головна — New Balance Shop</PageTitle>
+
+<section class="hero">
+    <span class="eyebrow">Новий сезон</span>
+    <h1>Інтернет-магазин спортивного одягу та взуття</h1>
+    <p>Технологічний спортивний одяг та взуття для щоденних тренувань і міста.</p>
+    <a class="btn-nb" href="catalog">Перейти до каталогу</a>
+</section>
+
+<h2 class="mt-5 mb-3" style="font-weight:800;">Популярне зараз</h2>
+<div class="grid">
+    @foreach (var p in ShopData.Products.Take(3))
+    {
+        <div class="card-nb">
+            <ProductThumb Product="p" IsNew="@(p.Id == 1)" />
+            <h3>@p.Name</h3>
+            <p class="meta">@p.Category · @p.Color</p>
+            <span class="price">@ShopData.Money(p.Price)</span>
+        </div>
+    }
+</div>

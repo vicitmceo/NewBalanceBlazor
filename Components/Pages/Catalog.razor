@@ -1,0 +1,35 @@
+@page "/catalog"
+@rendermode InteractiveServer
+
+<PageTitle>Каталог — New Balance Shop</PageTitle>
+
+<h1 class="page-title">Каталог товарів</h1>
+<p class="page-sub">@Filtered.Count() @(Filtered.Count() == 1 ? "товар" : "товарів") у категорії «@category»</p>
+
+<div class="chips">
+    @foreach (var c in categories)
+    {
+        <button class="chip @(c == category ? "on" : "")" @onclick="() => category = c">@c</button>
+    }
+</div>
+
+<div class="grid">
+    @foreach (var p in Filtered)
+    {
+        <div class="card-nb">
+            <ProductThumb Product="p" IsNew="@(p.Id is 1 or 4)" />
+            <h3>@p.Name</h3>
+            <p class="meta">Розмір @p.Size · @p.Color</p>
+            <p class="desc">@p.Description</p>
+            <span class="price">@ShopData.Money(p.Price)</span>
+        </div>
+    }
+</div>
+
+@code {
+    private readonly string[] categories = ["Усі", "Кросівки", "Одяг", "Аксесуари"];
+    private string category = "Усі";
+
+    private IEnumerable<Product> Filtered =>
+        category == "Усі" ? ShopData.Products : ShopData.Products.Where(p => p.Category == category);
+}
