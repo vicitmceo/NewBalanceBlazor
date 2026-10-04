@@ -1,0 +1,14 @@
+<button type="button"
+        class="nb-btn"
+        style="width: @(Width)px; height: @(Height)px; background-color: @BackgroundColor;"
+        @onclick="OnClick">
+    @Text
+</button>
+
+@code {
+    [Parameter] public int Width { get; set; } = 120;
+    [Parameter] public int Height { get; set; } = 50;
+    [Parameter] public string BackgroundColor { get; set; } = "#111111";
+    [Parameter] public string Text { get; set; } = "Кнопка";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
+}

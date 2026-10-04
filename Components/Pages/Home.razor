@@ -9,6 +9,14 @@
     <a class="btn-nb" href="catalog">Перейти до каталогу</a>
 </section>
 
+<h2 class="mt-5 mb-3" style="font-weight:800;">Компонент «Кнопка»</h2>
+<div class="d-flex flex-wrap align-items-center gap-3">
+    <Button Width="120" Height="50" BackgroundColor="#111111" Text="В кошик" />
+    <Button Width="160" Height="50" BackgroundColor="#cf0a2c" Text="Купити зараз" />
+    <Button Width="200" Height="64" BackgroundColor="#2a6df4" Text="Оформити замовлення" />
+    <Button Width="100" Height="36" BackgroundColor="#7d838c" Text="Деталі" />
+</div>
+
 <h2 class="mt-5 mb-3" style="font-weight:800;">Популярне зараз</h2>
 <div class="grid">
     @foreach (var p in ShopData.Products.Take(3))
